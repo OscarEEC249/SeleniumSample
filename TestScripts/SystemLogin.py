@@ -4,6 +4,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+user_name = sys.argv[1]
+user_password = sys.argv[2]
+
 try:
     # Create WebDriver
     driver = webdriver.Chrome("C:\\SeleniumWebDrivers\\chromedriver.exe")
@@ -19,7 +22,7 @@ try:
     # Write Email
     wait.until(EC.presence_of_element_located((By.ID, 'i0116')))
     email_text = driver.find_element_by_xpath('//*[@id="i0116"]')
-    email_text.send_keys("oscar.escobar.cifuentes@itzdata.tech")
+    email_text.send_keys(user_name)
 
     # Click on Next
     next_button = driver.find_element_by_xpath('//*[@id="idSIButton9"]')
@@ -33,7 +36,7 @@ try:
     # Write Password
     wait.until(EC.presence_of_element_located((By.ID, "i0118")))
     password_text = driver.find_element_by_xpath('//*[@id="i0118"]')
-    password_text.send_keys("coka123!")
+    password_text.send_keys(user_password)
 
     # Click on Sign in
     signin_button = driver.find_element_by_xpath('//*[@id="idSIButton9"]')
@@ -46,14 +49,14 @@ try:
 
     # Get username logged
     wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/nav/div/div[2]/ul[2]/li[1]")))
-    user_name = driver.find_element_by_xpath('/html/body/nav/div/div[2]/ul[2]/li[1]')
+    user_name_label = driver.find_element_by_xpath('/html/body/nav/div/div[2]/ul[2]/li[1]')
 
     # Assert of username logged
     try: 
-        assert user_name.text == 'Hello oscar.escobar.cifuentes@itzdata.tech!'
+        assert user_name_label.text == 'Hello ' + user_name + '!'
     except AssertionError as error:
-        print("Username assert failed!", 'red')
-        print("Found value is: " + user_name.text, 'red')
+        print("Username assert failed!")
+        print("Found value is: " + user_name.text)
 
     driver.close()
     driver.quit()
