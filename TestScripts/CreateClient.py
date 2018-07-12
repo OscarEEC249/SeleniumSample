@@ -1,21 +1,15 @@
 import time
 import sys
+import yaml
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
 
-user_name = sys.argv[1]
-user_password = sys.argv[2]
-new_client_name = sys.argv[3]
-
-def SystemLogin(user_name,user_password):
+# System Login function
+def SystemLogin(user_name, user_password, driver):
     try:
-        # Create WebDriver
-        driver = webdriver.Chrome("E:\\SeleniumWebDrivers\\Windows\\chromedriver.exe")
-        # driver.manage().timeouts().pageLoadTimeout(100, SECONDS)
-        driver.set_page_load_timeout(120)
-
         # Navigate to Onboarding page
         driver.get("https://alliedglobalonboarding.azurewebsites.net/")
         driver.maximize_window()
@@ -57,21 +51,43 @@ def SystemLogin(user_name,user_password):
         # Assert of username logged
         try: 
             assert user_name_label.text == 'Hello ' + user_name + '!'
+            print('User successfully logged.')
         except AssertionError as error:
             print("Username assert failed!", 'red')
             print("Found value is: " + user_name.text, 'red')
         
         return driver
-    except NameError as error:
-        print("Unexpected error:: {0}".format(error))
+    except:
+        print("Unexpected error:", sys.exc_info())
         driver.close()
         driver.quit()
 
 ########################################### MAIN ###########################################
 
 try:
+    # Read parameters from Yaml file
+    parameters = open("..\data.yml")
+    info = yaml.load(parameters)
+    user_name = info['UserName']
+    user_password = info['UserPassword']
+    new_client_name = info['NewClientName']
+    headless_mode = info['HeadlessMode']
+
+    # Create WebDriver
+    driver = {}
+    if(headless_mode == True):
+        CHROMEDRIVER_PATH = "C:\\SeleniumWebDrivers\\Windows\\chromedriver.exe"
+        chrome_options = Options() 
+        chrome_options.add_argument("--headless") 
+        chrome_options.add_argument("--window-size=1920x1080")
+        driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
+        driver.set_page_load_timeout(120)
+    else:
+        driver = webdriver.Chrome("C:\\SeleniumWebDrivers\\chromedriver.exe")
+        driver.set_page_load_timeout(120)
+    
     # Login to system
-    driver = SystemLogin(user_name, user_password)
+    driver = SystemLogin(user_name, user_password, driver)
     wait = WebDriverWait(driver, 10)
 
     # Click on Clients Menu
@@ -108,7 +124,8 @@ try:
             break
     
     # Assert client exists
-    try: 
+    try:
+        driver.get_screenshot_as_file("..\screenshots\createclient.png")  
         assert client_exists == True
     except AssertionError as error:
         print("User was not created!")
