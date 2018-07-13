@@ -9,6 +9,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 
+# Driver constants
 chromedriver_path = "C:\\SeleniumWebDrivers\\Windows\\chromedriver.exe"
 chrome_options = Options() 
 chrome_options.add_argument("--headless") 
@@ -21,25 +22,6 @@ user_name = info['UserName']
 user_password = info['UserPassword']
 new_client_name = info['NewClientName']
 headless_mode = info['HeadlessMode']
-
-# class PythonOrgSearch(unittest.TestCase):
- 
-#     def setUp(self):
-#         self.driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
-        
-#     def test_search_in_python_org(self):
-#         driver = self.driver
-#         driver.get("http://www.python.org")
-#         driver.get_screenshot_as_file("title.png")
-#         assert "Python" in driver.title
-#         elem = self.driver.find_element_by_name("q")
-#         elem.clear()
-#         elem.send_keys("pycon")
-#         elem.send_keys(Keys.ENTER)
-#         driver.get_screenshot_as_file("results.png")
-#         assert "No results found." not in driver.page_source
-#     def tearDown(self):
-#         self.driver.close()
 
 def SystemLogin(driver):
     # Navigate to Onboarding page
@@ -81,7 +63,7 @@ def SystemLogin(driver):
 class TestLogin(unittest.TestCase):
     def setUp(self):
         # Create WebDriver
-        # self.driver = {}
+        driver = {}
         if(headless_mode == True):
             driver = webdriver.Chrome(executable_path=chromedriver_path, chrome_options=chrome_options)
             driver.set_page_load_timeout(120)
