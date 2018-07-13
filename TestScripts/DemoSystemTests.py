@@ -23,6 +23,7 @@ user_password = info['UserPassword']
 new_client_name = info['NewClientName']
 headless_mode = info['HeadlessMode']
 
+################################################## FUNCTIONS SECTION ##################################################
 def SystemLogin(driver):
     # Navigate to Onboarding page
     driver.get("https://alliedglobalonboarding.azurewebsites.net/")
@@ -60,7 +61,9 @@ def SystemLogin(driver):
     
     return driver
 
+################################################## TEST CLASS ##################################################
 class TestLogin(unittest.TestCase):
+    # SetUp function
     def setUp(self):
         # Create WebDriver
         driver = {}
@@ -73,6 +76,7 @@ class TestLogin(unittest.TestCase):
         
         self.driver = driver
     
+    # Test login test case
     def test_system_login(self):
         driver = self.driver
         
@@ -92,7 +96,8 @@ class TestLogin(unittest.TestCase):
             print("Username assert failed!")
             print("Found value is: " + user_name.text)
     
-    def test_create_user(self):
+    # Client creation test case
+    def test_create_client(self):
         driver = self.driver
         
         # System Login
@@ -140,6 +145,7 @@ class TestLogin(unittest.TestCase):
         except AssertionError as error:
             print("User was not created.")
 
+    # End process function
     def tearDown(self):
         self.driver.close()
 
