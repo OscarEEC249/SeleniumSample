@@ -1,33 +1,47 @@
 import time
 import sys
 import yaml
+import unittest
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 
-try:
-    # Read parameters from Yaml file
-    parameters = open("..\data.yml")
-    info = yaml.load(parameters)
-    user_name = info['UserName']
-    user_password = info['UserPassword']
-    headless_mode = info['HeadlessMode']
+chromedriver_path = "C:\\SeleniumWebDrivers\\Windows\\chromedriver.exe"
+chrome_options = Options() 
+chrome_options.add_argument("--headless") 
+chrome_options.add_argument("--window-size=1920x1080")
 
-    # Create WebDriver
-    driver = {}
-    if(headless_mode == True):
-        CHROMEDRIVER_PATH = "C:\\SeleniumWebDrivers\\Windows\\chromedriver.exe"
-        chrome_options = Options() 
-        chrome_options.add_argument("--headless") 
-        chrome_options.add_argument("--window-size=1920x1080")
-        driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
-        driver.set_page_load_timeout(120)
-    else:
-        driver = webdriver.Chrome("C:\\SeleniumWebDrivers\\chromedriver.exe")
-        driver.set_page_load_timeout(120)
+# Read parameters from Yaml file
+parameters = open("..\data.yml")
+info = yaml.load(parameters)
+user_name = info['UserName']
+user_password = info['UserPassword']
+new_client_name = info['NewClientName']
+headless_mode = info['HeadlessMode']
 
+# class PythonOrgSearch(unittest.TestCase):
+ 
+#     def setUp(self):
+#         self.driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
+        
+#     def test_search_in_python_org(self):
+#         driver = self.driver
+#         driver.get("http://www.python.org")
+#         driver.get_screenshot_as_file("title.png")
+#         assert "Python" in driver.title
+#         elem = self.driver.find_element_by_name("q")
+#         elem.clear()
+#         elem.send_keys("pycon")
+#         elem.send_keys(Keys.ENTER)
+#         driver.get_screenshot_as_file("results.png")
+#         assert "No results found." not in driver.page_source
+#     def tearDown(self):
+#         self.driver.close()
+
+def SystemLogin(driver):
     # Navigate to Onboarding page
     driver.get("https://alliedglobalonboarding.azurewebsites.net/")
     driver.maximize_window()
@@ -61,23 +75,91 @@ try:
     wait.until(EC.presence_of_element_located((By.ID, "idSIButton9")))
     yes_button = driver.find_element_by_xpath('//*[@id="idSIButton9"]')
     yes_button.click()
+    
+    return driver
 
-    # Get username logged
-    wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/nav/div/div[2]/ul[2]/li[1]")))
-    user_name_label = driver.find_element_by_xpath('/html/body/nav/div/div[2]/ul[2]/li[1]')
+class TestLogin(unittest.TestCase):
+    def setUp(self):
+        # Create WebDriver
+        # self.driver = {}
+        if(headless_mode == True):
+            driver = webdriver.Chrome(executable_path=chromedriver_path, chrome_options=chrome_options)
+            driver.set_page_load_timeout(120)
+        else:
+            driver = webdriver.Chrome("C:\\SeleniumWebDrivers\\chromedriver.exe")
+            driver.set_page_load_timeout(120)
+        
+        self.driver = driver
+    
+    def test_system_login(self):
+        driver = self.driver
+        
+        # System Login
+        driver = SystemLogin(self.driver)
+        wait = WebDriverWait(driver, 10)
 
-    # Assert of username logged
-    try:
-        driver.get_screenshot_as_file("..\screenshots\systemlogin.png") 
-        assert user_name_label.text == 'Hello ' + user_name + '!'
-        print('User successfully logged.')
-    except AssertionError as error:
-        print("Username assert failed!")
-        print("Found value is: " + user_name.text)
+        # Get username logged
+        wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/nav/div/div[2]/ul[2]/li[1]")))
+        user_name_label = driver.find_element_by_xpath('/html/body/nav/div/div[2]/ul[2]/li[1]')
 
-    driver.close()
-    driver.quit()
-except:
-    print("Unexpected error:", sys.exc_info())
-    driver.close()
-    driver.quit()
+        # Assert of username logged
+        try: 
+            assert user_name_label.text == 'Hello ' + user_name + '!'
+            print('User successfully logged.')
+        except AssertionError as error:
+            print("Username assert failed!")
+            print("Found value is: " + user_name.text)
+    
+    def test_create_user(self):
+        driver = self.driver
+        
+        # System Login
+        driver = SystemLogin(self.driver)
+        wait = WebDriverWait(driver, 10)
+
+        # Click on Clients Menu
+        wait.until(EC.presence_of_element_located((By.XPATH, '/html/body/nav/div/div[2]/ul[1]/li/a')))
+        clients_menu = driver.find_element_by_xpath('/html/body/nav/div/div[2]/ul[1]/li/a')
+        clients_menu.click()
+
+        # Click on Create New button
+        wait.until(EC.presence_of_element_located((By.XPATH, '/html/body/div/p/a')))
+        create_new_button = driver.find_element_by_xpath('/html/body/div/p/a')
+        create_new_button.click()
+
+        # Enter new client name
+        wait.until(EC.presence_of_element_located((By.ID, 'Name')))
+        new_client_text = driver.find_element_by_id('Name')
+        new_client_text.send_keys(new_client_name)
+
+        # Click on Create button
+        wait.until(EC.presence_of_element_located((By.XPATH, '/html/body/div/div[1]/div/form/div[2]/input')))
+        create_button = driver.find_element_by_xpath('/html/body/div/div[1]/div/form/div[2]/input')
+        create_button.click()
+
+        # Search created client
+        wait.until(EC.presence_of_element_located((By.XPATH, '/html/body/div/table/tbody')))
+        clients_table = driver.find_element_by_xpath('/html/body/div/table/tbody')
+        clients_table_rows = clients_table.find_elements_by_xpath('tr')
+
+        # Search on table the name of the client
+        client_exists = False
+        for x in clients_table_rows:
+            client_name = x.find_element_by_xpath('td[1]')
+            if(client_name.text == new_client_name):
+                client_exists = True
+                break
+        
+        # Assert client exists
+        try:
+            driver.get_screenshot_as_file("..\screenshots\createclient.png")  
+            assert client_exists == True
+            print("User successfully created.")
+        except AssertionError as error:
+            print("User was not created.")
+
+    def tearDown(self):
+        self.driver.close()
+
+if __name__ == "__main__":
+    unittest.main()

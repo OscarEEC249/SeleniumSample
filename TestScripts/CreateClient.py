@@ -1,6 +1,7 @@
 import time
 import sys
 import yaml
+import unittest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -53,8 +54,8 @@ def SystemLogin(user_name, user_password, driver):
             assert user_name_label.text == 'Hello ' + user_name + '!'
             print('User successfully logged.')
         except AssertionError as error:
-            print("Username assert failed!", 'red')
-            print("Found value is: " + user_name.text, 'red')
+            print("Username assert failed!")
+            print("Found value is: " + user_name.text)
         
         return driver
     except:
