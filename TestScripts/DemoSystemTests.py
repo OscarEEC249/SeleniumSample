@@ -1,3 +1,4 @@
+import os
 import time
 import sys
 import yaml
@@ -14,6 +15,8 @@ chromedriver_path = "C:\\SeleniumWebDrivers\\Windows\\chromedriver.exe"
 chrome_options = Options() 
 chrome_options.add_argument("--headless") 
 chrome_options.add_argument("--window-size=1920x1080")
+screeenshots_directory = "..\_TestScreenshots"
+reports_directory = "..\_TestReports"
 
 # Read parameters from Yaml file
 parameters = open("..\data.yml")
@@ -71,9 +74,18 @@ class TestLogin(unittest.TestCase):
             driver = webdriver.Chrome(executable_path=chromedriver_path, chrome_options=chrome_options)
             driver.set_page_load_timeout(120)
         else:
-            driver = webdriver.Chrome("C:\\SeleniumWebDrivers\\chromedriver.exe")
+            driver = webdriver.Chrome(executable_path=chromedriver_path)
             driver.set_page_load_timeout(120)
         
+        # Create folder for screenshots
+        if not os.path.exists(screeenshots_directory):
+            os.makedirs(screeenshots_directory)
+        
+        # Create folder for reports
+        if not os.path.exists(reports_directory):
+            os.makedirs(reports_directory)
+
+        # Create self driver
         self.driver = driver
     
     # Test login test case
@@ -91,8 +103,10 @@ class TestLogin(unittest.TestCase):
         # Assert of username logged
         try: 
             assert user_name_label.text == 'Hello ' + user_name + '!'
+            driver.get_screenshot_as_file(screeenshots_directory + "\login.png")
             print('User successfully logged.')
         except AssertionError as error:
+            driver.get_screenshot_as_file(screeenshots_directory + "\login-error.png")
             print("Username assert failed!")
             print("Found value is: " + user_name.text)
     
@@ -124,8 +138,13 @@ class TestLogin(unittest.TestCase):
         create_button = driver.find_element_by_xpath('/html/body/div/div[1]/div/form/div[2]/input')
         create_button.click()
 
-        # Search created client
-        wait.until(EC.presence_of_element_located((By.XPATH, '/html/body/div/table/tbody')))
+        # Assert client exists
+        try:
+            assert EC.presence_of_element_located((By.XPATH, '/html/body/div/table/tbody')) == True
+        except AssertionError as error:
+            driver.get_screenshot_as_file(screeenshots_directory + "\createclient-exists.png")
+            print("Client already exists!")
+
         clients_table = driver.find_element_by_xpath('/html/body/div/table/tbody')
         clients_table_rows = clients_table.find_elements_by_xpath('tr')
 
@@ -137,17 +156,20 @@ class TestLogin(unittest.TestCase):
                 client_exists = True
                 break
         
-        # Assert client exists
-        try:
-            driver.get_screenshot_as_file("..\screenshots\createclient.png")  
+        # Assert client created
+        try:  
             assert client_exists == True
-            print("User successfully created.")
+            driver.get_screenshot_as_file(screeenshots_directory + "\createclient.png")
+            print("Client successfully created.")
         except AssertionError as error:
-            print("User was not created.")
+            driver.get_screenshot_as_file(screeenshots_directory + "\createclient-error.png")
+            print("Client was not created.")
 
     # End process function
     def tearDown(self):
         self.driver.close()
 
 if __name__ == "__main__":
-    unittest.main()
+    # unittest.main()
+    import xmlrunner
+    unittest.main(testRunner=xmlrunner.XMLTestRunner(output=reports_directory))
