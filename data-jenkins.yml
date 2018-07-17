@@ -1,0 +1,6 @@
+ReportsDirectory: "/var/lib/jenkins/workspace/DemoSelenium/_TestReports"
+ScreenshotsDirectory: "/var/lib/jenkins/workspace/DemoSelenium/_TestScreenshots"
+UserName: alliedglobalselenium@oscargarciacolonoutlook.onmicrosoft.com
+UserPassword: ItzDataAdm1n
+NewClientName: TestClient1
+HeadlessMode: True
