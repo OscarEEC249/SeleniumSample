@@ -17,12 +17,12 @@ chromedriver_path = "C:\\SeleniumWebDrivers\\Windows\\chromedriver.exe"
 chrome_options = Options() 
 chrome_options.add_argument("--headless") 
 chrome_options.add_argument("--window-size=1920x1080")
-screeenshots_directory = "..\_TestScreenshots"
-reports_directory = "..\_TestReports"
 
 # Read parameters from Yaml file
 parameters = open("..\data.yml")
 info = yaml.load(parameters)
+screeenshots_directory = info['ScreenshotsDirectory']
+reports_directory = info['ReportsDirectory']
 user_name = info['UserName']
 user_password = info['UserPassword']
 new_client_name = info['NewClientName']
@@ -144,14 +144,7 @@ class TestLogin(unittest.TestCase):
             # Assert client created
             assert client_exists == True
             driver.get_screenshot_as_file(screeenshots_directory + "\createclient.png")
-            
-            # try:  
-            #     assert client_exists == True
-            #     driver.get_screenshot_as_file(screeenshots_directory + "\createclient.png")
-            #     print("Client successfully created.")
-            # except AssertionError as error:
-            #     driver.get_screenshot_as_file(screeenshots_directory + "\createclient-error.png")
-            #     print("Client was not created.")
+
         except AssertionError:
             driver.get_screenshot_as_file(screeenshots_directory + "\createclient-error.png")
             print("Client creation failed!")
@@ -181,15 +174,7 @@ class TestLogin(unittest.TestCase):
             # Assert of username logged
             assert user_name_label.text == 'Hello ' + user_name + '!'
             driver.get_screenshot_as_file(screeenshots_directory + "\login.png")
-
-            # try: 
-            #     assert user_name_label.text == 'Hello ' + user_name + '!'
-            #     driver.get_screenshot_as_file(screeenshots_directory + "\login.png")
-            #     print('User successfully logged.')
-            # except:
-            #     driver.get_screenshot_as_file(screeenshots_directory + "\login-error.png")
-            #     print("Username assert failed!")
-            #     print("Found value is: " + user_name.text)
+            
         except AssertionError:
             driver.get_screenshot_as_file(screeenshots_directory + "\login-error.png")
             print("Login failed!")
