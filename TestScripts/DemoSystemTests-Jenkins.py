@@ -13,10 +13,10 @@ from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import TimeoutException
 
 # Driver constants
-chromedriver_path = "C:\\SeleniumWebDrivers\\Windows\\chromedriver.exe"
+chromedriver_path = "/usr/bin/chromedriver"
 chrome_options = Options() 
 chrome_options.add_argument("--headless") 
-chrome_options.add_argument("--window-size=1920x1080")
+#chrome_options.add_argument("--window-size=1920x1080")
 
 # Read parameters from Yaml files
 parameters = open("../data-jenkins.yml")
@@ -46,12 +46,13 @@ def SystemLogin(driver):
         next_button = driver.find_element_by_xpath('//*[@id="idSIButton9"]')
         next_button.click()
 
-        # Select Account Type
-        wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="aadTitleHint"]/small')))
-        account_type = driver.find_element_by_xpath('//*[@id="aadTitleHint"]/small')
-        account_type.click()
+        # # Select Account Type
+        # wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="aadTitleHint"]/small')))
+        # account_type = driver.find_element_by_xpath('//*[@id="aadTitleHint"]/small')
+        # account_type.click()
 
         # Write Password
+        time.sleep(3)
         wait.until(EC.presence_of_element_located((By.ID, "i0118")))
         password_text = driver.find_element_by_xpath('//*[@id="i0118"]')
         password_text.send_keys(user_password)

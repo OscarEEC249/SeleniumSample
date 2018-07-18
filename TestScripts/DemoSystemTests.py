@@ -46,10 +46,10 @@ def SystemLogin(driver):
         next_button = driver.find_element_by_xpath('//*[@id="idSIButton9"]')
         next_button.click()
 
-        # Select Account Type
-        wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="aadTitleHint"]/small')))
-        account_type = driver.find_element_by_xpath('//*[@id="aadTitleHint"]/small')
-        account_type.click()
+        # # Select Account Type
+        # wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="aadTitleHint"]/small')))
+        # account_type = driver.find_element_by_xpath('//*[@id="aadTitleHint"]/small')
+        # account_type.click()
 
         # Write Password
         wait.until(EC.presence_of_element_located((By.ID, "i0118")))
