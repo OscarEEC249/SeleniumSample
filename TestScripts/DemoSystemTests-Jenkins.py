@@ -19,7 +19,7 @@ chrome_options.add_argument("--headless")
 chrome_options.add_argument("--window-size=1920x1080")
 
 # Read parameters from Yaml files
-parameters = open("./data-jenkins.yml")
+parameters = open("../data-jenkins.yml")
 info = yaml.load(parameters)
 screeenshots_directory = info['ScreenshotsDirectory']
 reports_directory = info['ReportsDirectory']
