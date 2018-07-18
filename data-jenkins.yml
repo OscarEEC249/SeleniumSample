@@ -2,5 +2,5 @@ ReportsDirectory: "/var/lib/jenkins/jobs/DemoSelenium/reports/"
 ScreenshotsDirectory: "/var/lib/jenkins/jobs/DemoSelenium/screenshots/"
 UserName: alliedglobalselenium@oscargarciacolonoutlook.onmicrosoft.com
 UserPassword: ItzDataAdm1n
-NewClientName: TestClient2
+NewClientName: TestClient3
 HeadlessMode: True
