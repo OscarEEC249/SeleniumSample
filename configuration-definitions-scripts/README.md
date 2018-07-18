@@ -303,7 +303,7 @@ To run the CI/CD process, you need to import the code before configure the Build
 
     From the repo drop-down, select **Import repository**.
 
-    ![RepositoryPage](./images/importrepository.png)
+    ![RepositoryPage](./images/import-repository.png)
 
 2. Enter the GitHub URL to clone, in this case https://github.com/OscarEEC249/SeleniumSample.git (this no need Authorization), click on **Import**.
 
