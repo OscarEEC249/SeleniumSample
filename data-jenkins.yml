@@ -3,4 +3,4 @@ ScreenshotsDirectory: "/home/oscarescobar/TestDemo/screenshots/"
 UserName: alliedglobalselenium@oscargarciacolonoutlook.onmicrosoft.com
 UserPassword: ItzDataAdm1n
 NewClientName: TestClient2
-HeadlessMode: False
+HeadlessMode: True
