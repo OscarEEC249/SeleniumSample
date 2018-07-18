@@ -18,8 +18,8 @@ chrome_options = Options()
 chrome_options.add_argument("--headless") 
 chrome_options.add_argument("--window-size=1920x1080")
 
-# Read parameters from Yaml file
-parameters = open("..\data.yml")
+# Read parameters from Yaml files
+parameters = open("..\data-jenkins.yml")
 info = yaml.load(parameters)
 screeenshots_directory = info['ScreenshotsDirectory']
 reports_directory = info['ReportsDirectory']
@@ -143,18 +143,18 @@ class TestLogin(unittest.TestCase):
             
             # Assert client created
             assert client_exists == True
-            driver.get_screenshot_as_file(screeenshots_directory + "\createclient.png")
+            driver.get_screenshot_as_file(screeenshots_directory + "createclient.png")
 
         except AssertionError:
-            driver.get_screenshot_as_file(screeenshots_directory + "\createclient-error.png")
+            driver.get_screenshot_as_file(screeenshots_directory + "createclient-error.png")
             print("Client creation failed!")
             raise
         except TimeoutException:
-            driver.get_screenshot_as_file(screeenshots_directory + "\createclient-error.png")
+            driver.get_screenshot_as_file(screeenshots_directory + "createclient-error.png")
             print("Client creation failed!")
             raise
         except:
-            driver.get_screenshot_as_file(screeenshots_directory + "\createclient-error.png")
+            driver.get_screenshot_as_file(screeenshots_directory + "createclient-error.png")
             print("Unexpected error:", sys.exc_info()[0])
             raise
 
@@ -173,24 +173,25 @@ class TestLogin(unittest.TestCase):
 
             # Assert of username logged
             assert user_name_label.text == 'Hello ' + user_name + '!'
-            driver.get_screenshot_as_file(screeenshots_directory + "\login.png")
+            driver.get_screenshot_as_file(screeenshots_directory + "login.png")
             
         except AssertionError:
-            driver.get_screenshot_as_file(screeenshots_directory + "\login-error.png")
+            driver.get_screenshot_as_file(screeenshots_directory + "login-error.png")
             print("Login failed!")
             raise
         except TimeoutException:
-            driver.get_screenshot_as_file(screeenshots_directory + "\login-error.png")
+            driver.get_screenshot_as_file(screeenshots_directory + "login-error.png")
             print("Login failed!")
             raise
         except:
-            driver.get_screenshot_as_file(screeenshots_directory + "\login-error.png")
+            driver.get_screenshot_as_file(screeenshots_directory + "login-error.png")
             print("Unexpected error:", sys.exc_info()[0])
             raise
 
     # End process function
     def tearDown(self):
         self.driver.close()
+        self.driver.quit()
 
 if __name__ == "__main__":
     # unittest.main()
