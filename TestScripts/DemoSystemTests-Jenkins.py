@@ -52,7 +52,7 @@ def SystemLogin(driver):
         # account_type.click()
 
         # Write Password
-        time.sleep(3)
+        time.sleep(1)
         wait.until(EC.presence_of_element_located((By.ID, "i0118")))
         password_text = driver.find_element_by_xpath('//*[@id="i0118"]')
         password_text.send_keys(user_password)
