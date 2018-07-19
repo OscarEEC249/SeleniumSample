@@ -295,6 +295,30 @@ On the VM created for the VSTS Agent, install the following programs:
 
     ![PythonFilesCopy](./images/python-files-copy.png)
 
+4. Download and install **Google Chrome**
+
+    Download Google Chrome from the following link and follow the install instructions
+    
+    [Download Google Chrome](http://chromedriver.chromium.org/downloads)
+
+5. Download **Selenium ChromeDriver** 
+
+    Browse to the following link
+    
+    [Download Google Chrome Driver](http://chromedriver.chromium.org/downloads)
+    
+    Click on the link to download the **Latest Release**
+
+    ![ChromeDriverLatestRelease](./images/chrome-driver-latest.png)
+
+    Download the Windows-x64 version on a .zip file.
+
+    On the VM, create the following directory:
+
+        C:\SeleniumWebDrivers\Windows\
+    
+    On the new directory, copy the chromedriver.exe file downloaded on the .zip file.
+
 ## Import GitHub Repository to VSTS
 
 To run the CI/CD process, you need to import the code before configure the Build and Release.
