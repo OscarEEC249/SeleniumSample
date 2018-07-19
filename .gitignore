@@ -1,3 +1,5 @@
 _TestScreenshots/*
 _TestReports/*
+./TestScripts/reports
+./TestScripts/screenshots
 geckodriver.log
