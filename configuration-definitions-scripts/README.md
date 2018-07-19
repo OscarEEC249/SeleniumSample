@@ -16,7 +16,7 @@ To be able to run this Demo, follow the instructions for the correct implementat
         1. [Create Agent Pool on VSTS.](#1-create-agent-pool-on-vsts)
         2. [Create initial resources on Microsoft Azure.](#2-create-initial-resources-on-microsoft-azure)
         3. [Extra Installations.](#extra-installations)
-    1. [Manual Resources Creation](#manual-resources-creation)
+    2. [Manual Resources Creation](#manual-resources-creation)
         1. [Create Agent Pool on VSTS.](#1-create-agent-pool-on-vsts-1)
         2. [Create initial resources on Microsoft Azure.](#2-create-initial-resources-on-microsoft-azure-1)
         3. [Extra Installations.](#extra-installations)
