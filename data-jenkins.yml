@@ -1,5 +1,5 @@
-ReportsDirectory: "/var/lib/jenkins/jobs/DemoSelenium/reports/"
-ScreenshotsDirectory: "/var/lib/jenkins/jobs/DemoSelenium/screenshots/"
+ReportsDirectory: "/var/lib/jenkins/workspace/DemoSelenium/reports/"
+ScreenshotsDirectory: "/var/lib/jenkins/workspace/DemoSelenium/screenshots/"
 UserName: alliedglobalselenium@oscargarciacolonoutlook.onmicrosoft.com
 UserPassword: ItzDataAdm1n
 NewClientName: TestClient4
