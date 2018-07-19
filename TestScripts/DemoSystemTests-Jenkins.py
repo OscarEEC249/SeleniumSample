@@ -76,7 +76,7 @@ def SystemLogin(driver):
         raise
 
 ################################################## TEST CLASS ##################################################
-class TestLogin(unittest.TestCase):
+class TestSystemDemo(unittest.TestCase):
     # SetUp function
     def setUp(self):
         # Create WebDriver
