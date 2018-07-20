@@ -27,6 +27,7 @@ reports_directory = info['ReportsDirectory']
 user_name = info['UserName']
 user_password = info['UserPassword']
 new_client_name = info['NewClientName']
+new_client_project = info['NewClientProject']
 headless_mode = info['HeadlessMode']
 
 ################################################## FUNCTIONS SECTION ##################################################
