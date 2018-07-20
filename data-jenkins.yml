@@ -2,6 +2,6 @@ ReportsDirectory: "./reports/"
 ScreenshotsDirectory: "./screenshots/"
 UserName: alliedglobalselenium@oscargarciacolonoutlook.onmicrosoft.com
 UserPassword: ItzDataAdm1n
-NewClientName: TestClient5
+NewClientName: TestClient9
 NewClientProject: TestProject1
 HeadlessMode: True
